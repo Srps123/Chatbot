@@ -33,7 +33,7 @@ public class Magpie4
 	 *            the user statement
 	 * @return a response based on the rules given
 	 */
-  
+  /*
 	public String getResponse(String statement)
 	{
     
@@ -45,6 +45,14 @@ public class Magpie4
     else if(findKeyword(statement, "yea") >= 0){
       response = "Is there anything else you want to talk about?";
     }
+     else if(findKeyword(statement, "You don't say.") >= 0){
+      response = "Is there anything else you want to talk about?";
+    }
+    else if(findKeyword(statement, "Lets talk more about that.") >= 0)
+    {
+      response = "I don't want to";
+    }
+    
 
 		else if (findKeyword(statement, "no") >= 0 
     || findKeyword(statement, "hate") >= 0
@@ -54,11 +62,17 @@ public class Magpie4
     
 		}
     else if (findKeyword(statement, "I don't think so") >= 0)      {
-      response = "Are you sure";
+      response = "Are you sure?";
     }
     else if (findKeyword(statement, "I don't know") >= 0)           {  
       response = "Me neither";
     } 
+    else if (findKeyword(statement, "Great!") >= 0)           {  
+      response = "What is there to be excited about?";
+    } 
+  else if(findKeyword(statement, "What do you mean by that?") >=0){
+      response = "I meant what I said";
+    }
     else if(findKeyword(statement, "ice cream") >= 0
         || findKeyword(statement, "pizza") >= 0
 				|| findKeyword(statement, "burgers") >= 0 
@@ -177,7 +191,8 @@ public class Magpie4
 		}
 		int psn = findKeyword (statement, "I want to", 0);
 		String restOfStatement = statement.substring(psn + 9).trim();
-		return "What would it mean to " + restOfStatement + "?";
+		return "Why do you want to eat " + restOfStatement + "?";
+    
 	}
 
 	
@@ -291,7 +306,7 @@ public class Magpie4
 		}
 		else if (whichResponse == 2)
 		{
-			response = "ic";
+			response = "I see";
 		}
 		else if (whichResponse == 3)
 		{
@@ -301,4 +316,51 @@ public class Magpie4
 		return response;
 	}
 
-}
+
+
+  int greeting = 1; 
+  int casual_convo = 2;
+  int meals = 3; 
+  private int parseInput(String statement){
+    if(findKeyword(statement,"Hello") >=0){
+      return greeting; 
+    }
+    else if (findKeyword(statement, "ice cream") >= 0
+        || findKeyword(statement, "pizza") >= 0
+				|| findKeyword(statement, "burgers") >= 0 
+        || findKeyword(statement, "tacos") >= 0 
+				|| findKeyword(statement, "burritos") >= 0
+        || findKeyword(statement, "french fries") >= 0
+        || findKeyword(statement, "churros") >= 0
+        || findKeyword(statement, "sushi") >= 0
+        || findKeyword(statement, "rice") >= 0
+        || findKeyword(statement, "curry") >= 0){
+      return casual_convo;
+    }
+    else if(findKeyword(statement, "favorite foods") >=0) {
+      return meals;
+    }
+    return 0; 
+  }
+private void setState(String statement){
+  	//reset all values.  Your state logic may vary
+   	String response = ""; 
+    int newState = parseInput(statement); 
+  
+   	switch(newState) {
+      case 1:
+       	response = "Hello, Nice to meet you";
+       	break;
+      case 2:
+        response = "Tell me more about food";
+       	break;
+      case 3:
+       	response ="Would you like some meal recommendations?";
+       	break;
+     	default:
+     	  break; 
+    }
+    return response;
+}   
+
+}  
